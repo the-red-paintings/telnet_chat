@@ -1,4 +1,4 @@
-defmodule Broadcaster do
+defmodule TelnetChat.Broadcaster do
   use GenServer
   require Logger
 
@@ -8,13 +8,21 @@ defmodule Broadcaster do
 
   def init(state), do: {:ok, state}
 
-  def register(client), do: GenServer.cast(Broadcaster, {:register, client})
+  def register(client) do
+    GenServer.cast(__MODULE__, {:register, client})
+  end
 
-  def deregister(client), do: GenServer.cast(Broadcaster, {:deregister, client})
+  def deregister(client) do
+    GenServer.cast(__MODULE__, {:deregister, client})
+  end
 
-  def broadcast(line, socket), do: GenServer.cast(Broadcaster, {:broadcast, line, socket})
+  def broadcast(line, socket) do
+    GenServer.cast(__MODULE__, {:broadcast, line, socket})
+  end
 
-  def handle_cast({:register, client}, clients), do: {:noreply, [client | clients]}
+  def handle_cast({:register, client}, clients) do
+    {:noreply, [client | clients]}
+  end
 
   def handle_cast({:deregister, socket}, clients) do
     {:noreply, exclude_socket(clients, socket)}

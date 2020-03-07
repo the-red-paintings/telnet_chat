@@ -5,8 +5,8 @@ defmodule TelnetChat.Application do
 
   def start(_type, _args) do
     children = [
-      {TelnetChat, 4040},
-      {Broadcaster, []}
+      {TelnetChat.ConnectionAccepter, 4040},
+      {TelnetChat.Broadcaster, []}
     ]
 
     opts = [strategy: :one_for_all, name: TelnetChat.Supervisor]
